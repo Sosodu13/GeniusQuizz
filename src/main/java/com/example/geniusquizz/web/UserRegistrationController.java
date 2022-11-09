@@ -2,8 +2,14 @@ package com.example.geniusquizz.web;
 
 import com.example.geniusquizz.service.UserService;
 import com.example.geniusquizz.web.dto.UserRegistrationDto;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -16,7 +22,31 @@ public class UserRegistrationController {
         this.userService = userService;
     }
 
-    public String registraionUserAccount(@ModelAttribute("user")UserRegistrationDto registrationDto){
+
+    @ModelAttribute("user")
+    public UserRegistrationDto userRegistrationDto(){
+        return new UserRegistrationDto();
+    }
+
+    @GetMapping
+    public String showRegistrationForm(Model model){
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        System.out.println("iciR");
+        System.out.println();
+
+
+        if(!(auth instanceof AnonymousAuthenticationToken))
+        {
+            return "redirect:/";
+        }
+
+        return "registration";
+    }
+
+    @PostMapping
+    public String registrationUserAccount(@ModelAttribute("user")UserRegistrationDto registrationDto){
         userService.save(registrationDto);
         return "redirect:/inscription?success";
     }

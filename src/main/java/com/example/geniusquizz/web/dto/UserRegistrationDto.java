@@ -1,5 +1,7 @@
 package com.example.geniusquizz.web.dto;
 
+import com.example.geniusquizz.model.User;
+
 public class UserRegistrationDto {
     private String firstName;
     private String lastName;
@@ -12,6 +14,11 @@ public class UserRegistrationDto {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    public UserRegistrationDto()
+    {
+
     }
 
     public String getFirstName() {
