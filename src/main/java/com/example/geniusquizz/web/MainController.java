@@ -8,15 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MainController {
-
     @GetMapping("/connexion")
     public String login(){
-
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        System.out.println("iciR");
-        System.out.println();
-
 
         if(!(auth instanceof AnonymousAuthenticationToken))
         {
@@ -30,5 +24,4 @@ public class MainController {
     public String home(){
         return "index";
     }
-
 }
