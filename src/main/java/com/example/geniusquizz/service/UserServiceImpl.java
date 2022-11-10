@@ -1,6 +1,7 @@
 package com.example.geniusquizz.service;
 
 import com.example.geniusquizz.model.Role;
+import com.example.geniusquizz.model.Session;
 import com.example.geniusquizz.model.User;
 import com.example.geniusquizz.repository.UserRepository;
 import com.example.geniusquizz.web.dto.UserRegistrationDto;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,7 +36,8 @@ public class UserServiceImpl implements UserService{
                 registrationDto.getLastName(),
                 registrationDto.getEmail(),
                 passwordEncoder.encode(registrationDto.getPassword()),
-                List.of(new Role("ROLE_USER")));
+                Set.of(new Role("ROLE_USER")),
+                Set.of(new Session()));
 
         return userRepository.save(user);
 
