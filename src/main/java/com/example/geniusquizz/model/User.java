@@ -27,6 +27,10 @@ public class User {
     )
     private Collection<Role> roles;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name="user id")
+    private Collection<Session> sessions;
+
     public User(String firstName, String lastName, String email, String password, Collection<Role> roles) {
         super();
         this.firstName = firstName;
