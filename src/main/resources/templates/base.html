@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:fragment="html_head">
+  <meta charset="UTF-8">
+  <title layout:fragment="title"></title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link th:href="@{assets/img/favicon.png}" rel="icon">
+  <link th:href="@{assets/img/apple-touch-icon.png}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link th:href="@{assets/vendor/aos/aos.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/glightbox/css/glightbox.min.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/remixicon/remixicon.css}" rel="stylesheet">
+  <link th:href="@{assets/vendor/swiper/swiper-bundle.min.css}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link th:href="@{assets/css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+
+  <div layout:fragment="content">
+
+  </div>
+
+
+  <div th:fragment="html_scripts">
+    <!-- Vendor JS Files -->
+    <script th:src="@{assets/vendor/aos/aos.js}"></script>
+    <script th:src="@{assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{assets/vendor/glightbox/js/glightbox.min.js}"></script>
+    <script th:src="@{assets/vendor/isotope-layout/isotope.pkgd.min.js}"></script>
+    <script th:src="@{assets/vendor/swiper/swiper-bundle.min.js}"></script>
+    <script th:src="@{assets/vendor/waypoints/noframework.waypoints.js}"></script>
+    <script th:src="@{assets/vendor/php-email-form/validate.js}"></script>
+
+    <!-- Template Main JS File -->
+    <script th:src="@{assets/js/main.js}"></script>
+  </div>
+
+</body>
+
+</html>

@@ -47,8 +47,6 @@ public class UserServiceImpl implements UserService{
         {
             throw new UsernameNotFoundException("Email ou mot de passe incorrect !");
         }
-        System.out.println("ici");
-        System.out.println(user);
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
