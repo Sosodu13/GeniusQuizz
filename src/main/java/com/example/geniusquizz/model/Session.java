@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-@Table(name = "Session")
+@Table(name = "session")
 public class Session {
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

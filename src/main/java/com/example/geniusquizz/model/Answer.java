@@ -3,7 +3,7 @@ package com.example.geniusquizz.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Answer")
+@Table(name = "answer")
 public class Answer {
     @javax.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
