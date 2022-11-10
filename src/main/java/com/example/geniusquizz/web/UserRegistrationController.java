@@ -33,10 +33,6 @@ public class UserRegistrationController {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        System.out.println("iciR");
-        System.out.println();
-
-
         if(!(auth instanceof AnonymousAuthenticationToken))
         {
             return "redirect:/";
