@@ -304,7 +304,7 @@ h6 {
   color: #fff;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1250px) {
   .mobile-nav-toggle {
     display: block;
   }

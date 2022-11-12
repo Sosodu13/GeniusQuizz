@@ -1,5 +1,6 @@
 package com.example.geniusquizz.service;
 
+import com.example.geniusquizz.config.GeniusQuizzUserDetails;
 import com.example.geniusquizz.model.Role;
 import com.example.geniusquizz.model.Session;
 import com.example.geniusquizz.model.User;
@@ -22,13 +23,11 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService{
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    @Autowired private BCryptPasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public User save(UserRegistrationDto registrationDto) {
@@ -44,13 +43,21 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public User getByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
+        System.out.println("zefzef");
+        System.out.println(user);
         if (user == null)
         {
             throw new UsernameNotFoundException("Email ou mot de passe incorrect !");
         }
-        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+        return new GeniusQuizzUserDetails(user);
+//        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){

@@ -8,4 +8,6 @@ public interface UserService extends UserDetailsService {
 
     User save (UserRegistrationDto registrationDto);
 
+    User getByEmail(String email);
+
 }
