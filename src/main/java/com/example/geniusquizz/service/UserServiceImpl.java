@@ -1,11 +1,11 @@
 package com.example.geniusquizz.service;
 
-import com.example.geniusquizz.config.GeniusQuizzUserDetails;
 import com.example.geniusquizz.model.Role;
 import com.example.geniusquizz.model.Session;
 import com.example.geniusquizz.model.User;
 import com.example.geniusquizz.repository.UserRepository;
-import com.example.geniusquizz.web.dto.UserRegistrationDto;
+import com.example.geniusquizz.web.dto.UserDto;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,11 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +26,7 @@ public class UserServiceImpl implements UserService{
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
-    public User save(UserRegistrationDto registrationDto) {
+    public User save(UserDto registrationDto) {
         User user = new User(registrationDto.getFirstName(),
                 registrationDto.getLastName(),
                 registrationDto.getEmail(),
@@ -43,21 +39,79 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public UserDto getByEmail(String email) {
+        User userEntity = userRepository.findByEmail(email);
+        if (userEntity == null)
+        {
+            throw new UsernameNotFoundException(email);
+        }
+        UserDto returnUserDTO = new UserDto();
+        BeanUtils.copyProperties(userEntity, returnUserDTO);
+        return returnUserDTO;
+    }
+
+//    @Override
+//    public UserDto getUserById(Long userId) {
+//        UserDto returnUserDTO = new UserDto();
+//        User userEntityByUserId = userRepository.findUserById(userId);
+//
+//        if (userEntityByUserId == null)
+//        {
+//            throw new UsernameNotFoundException("Utilisateur introuvable !!!!");
+//        }
+//
+//        BeanUtils.copyProperties(userEntityByUserId, returnUserDTO);
+//
+//        return returnUserDTO;
+//    }
+
+    @Override
+    public UserDto updateAccount(UserDto userDTO){
+
+//        UserDto returnUserDTO = new UserDto();
+//        User userEntityByUserId = userRepository.findUserById(userDTO.getId());
+//
+//        if (userEntityByUserId == null)
+//        {
+//            throw new UsernameNotFoundException("Utilisateur introuvable !!!!!!");
+//        }
+//
+//        userEntityByUserId.setFirstName(userDTO.getFirstName());
+//        userEntityByUserId.setLastName(userDTO.getLastName());
+//        userEntityByUserId.setEmail(userDTO.getEmail());
+//
+//        User updatedUserEntity = userRepository.save(userEntityByUserId);
+//
+//        BeanUtils.copyProperties(updatedUserEntity, returnUserDTO);
+//
+//        return returnUserDTO;
+
+        User userEntityByUserId = userRepository.findByEmail(userDTO.getEmail());
+
+        if (userEntityByUserId == null)
+        {
+            throw new UsernameNotFoundException("Utilisateur introuvable !!!!!!");
+        }
+
+        userEntityByUserId.setFirstName(userDTO.getFirstName());
+        userEntityByUserId.setLastName(userDTO.getLastName());
+        userEntityByUserId.setEmail(userDTO.getEmail());
+
+        User updatedUserEntity = userRepository.save(userEntityByUserId);
+        BeanUtils.copyProperties(updatedUserEntity, userDTO);
+
+        return userDTO;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
-        System.out.println("zefzef");
-        System.out.println(user);
         if (user == null)
         {
             throw new UsernameNotFoundException("Email ou mot de passe incorrect !");
         }
-        return new GeniusQuizzUserDetails(user);
-//        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+//        return new GeniusQuizzUserDetails(user);
+        return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){

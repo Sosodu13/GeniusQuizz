@@ -23,7 +23,8 @@
                     <li><a class="nav-link scrollto" href="#services">Quizz</a></li>
                     <li><a class="nav-link scrollto" href="#team">Équipe</a></li>
                     <li><a class="nav-link scrollto" href="#contact">Nous contacter</a></li>
-                    <li><a class="nav-link" th:href="@{/profile}" ><span sec:authentication="principal.username"></span></a></li>
+<!--                    <li><a class="nav-link" th:href="@{/profile}" ><span sec:authentication="principal.username"></span></a></li>-->
+                    <li><a class="nav-link" th:href="@{/profile}" ><span th:text="${user.getFirstName()}+' '+ |${user.getLastName()}|"></span></a></li>
                     <li><a class="getstarted scrollto" id="decoBt" th:href="@{/logout}">Déconnexion</a></li>
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>

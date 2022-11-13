@@ -1,7 +1,7 @@
 package com.example.geniusquizz.web;
 
 import com.example.geniusquizz.service.UserService;
-import com.example.geniusquizz.web.dto.UserRegistrationDto;
+import com.example.geniusquizz.web.dto.UserDto;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,8 +24,8 @@ public class UserRegistrationController {
 
 
     @ModelAttribute("user")
-    public UserRegistrationDto userRegistrationDto(){
-        return new UserRegistrationDto();
+    public UserDto userRegistrationDto(){
+        return new UserDto();
     }
 
     @GetMapping
@@ -42,8 +42,8 @@ public class UserRegistrationController {
     }
 
     @PostMapping
-    public String registrationUserAccount(@ModelAttribute("user")UserRegistrationDto registrationDto){
-        userService.save(registrationDto);
+    public String registrationUserAccount(@ModelAttribute("user") UserDto userDto){
+        userService.save(userDto);
         return "redirect:/inscription?success";
     }
 }

@@ -1,11 +1,16 @@
 package com.example.geniusquizz.config;
 
+import com.example.geniusquizz.model.Role;
 import com.example.geniusquizz.model.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serial;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 public class GeniusQuizzUserDetails implements UserDetails {
 
@@ -20,7 +25,15 @@ public class GeniusQuizzUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<Role> roles = user.getRoles();
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        for (Role role : roles)
+        {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
+        return authorities;
     }
 
     @Override
@@ -35,22 +48,22 @@ public class GeniusQuizzUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     public String getFullName()
@@ -62,4 +75,10 @@ public class GeniusQuizzUserDetails implements UserDetails {
     {
         this.user.setFirstName(firstName);
     }
+
+    public void setLastName(String lastName)
+    {
+        this.user.setLastName(lastName);
+    }
+
 }
