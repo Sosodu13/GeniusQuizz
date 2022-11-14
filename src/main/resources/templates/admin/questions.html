@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="/templates/base.html" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head th:replace="base :: html_head">
+  <title layout:fragment="title">Admin - Questions</title>
+</head>
+
+<body sec:authorize="isAuthenticated()">
+
+  <div layout:fragment="content">
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top header-inner-pages">
+      <div class="container d-flex align-items-center">
+
+        <h1 class="logo me-auto"><a th:href="@{/}">GeniusQuizz</a></h1>
+
+        <nav id="navbar" class="navbar">
+          <ul>
+            <li><a class="nav-link scrollto " href="#hero">Accueil</a></li>
+            <li><a class="nav-link scrollto" href="#about">A propos de nous</a></li>
+            <li><a class="nav-link scrollto" href="#advanced">Votre avancé</a></li>
+            <li><a class="nav-link scrollto" href="#services">Quizz</a></li>
+            <li><a class="nav-link scrollto" href="#team">Équipe</a></li>
+            <li><a class="nav-link scrollto" href="#contact">Nous contacter</a></li>
+            <li><a class="nav-link" th:href="@{/profile}" ><span th:text="${user.getFirstName()}+' '+ |${user.getLastName()}|"></span></a></li>
+            <li><a class="getstarted scrollto" id="decoBt" th:href="@{/logout}">Déconnexion</a></li>
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav><!-- .navbar -->
+
+      </div>
+    </header><!-- End Header -->
+
+    <main id="main">
+
+      <!-- ======= Breadcrumbs ======= -->
+      <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+
+          <ol>
+            <li><a href="index.html">Admin</a></li>
+            <li>Questions</li>
+          </ol>
+          <h2>Questions</h2>
+
+        </div>
+      </section><!-- End Breadcrumbs -->
+
+      <section class="inner-page">
+        <div class="container">
+          <div class="main-body">
+            <div class="row gutters-sm">
+              <div class="col-md-4 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex flex-column align-items-center text-center">
+                      <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                      <div class="mt-3">
+                        <h4 th:text="${user.getEmail()}"></h4>
+                        <p class="text-secondary mb-1">Page Administrateur</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card mt-3">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                      <h6 class="mb-0">
+                        Nombre d'utilisateurs
+                      </h6>
+                      <span class="text-secondary"><span class="badge text-bg-primary">5</span></span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <div th:if="${param.success}" class="mx-1 mx-md-4 ">
+                      <div class="alert alert-success">
+                        ...
+                      </div>
+                    </div>
+                    <div th:if="${param.error}" class="mx-1 mx-md-4 ">
+                      <div class="alert alert-warning">
+                        ...
+                      </div>
+                    </div>
+                    <div th:if="${param.changeEmail}" class="mx-1 mx-md-4 ">
+                      <div class="alert alert-warning">
+                        ...
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main><!-- End #main -->
+
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+
+      <div class="footer-top" style="background-color: #f3f5fa;">
+        <div class="container">
+          <div class="row">
+
+            <div class="col-lg-3 col-md-6 footer-contact">
+              <h3>GeniusQuizz</h3>
+              <p>
+              </p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h4>Liens utiles</h4>
+              <ul>
+                <li><i class="bx bx-chevron-right"></i> <a href="#hero">Accueil</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="#about">A propos de nous</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="#advanced">Votre avancé</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="#services">Quizz</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="#team">Équipe</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a href="#contact">Nous contacter</a></li>
+              </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h4>Nos sites</h4>
+              <ul>
+                <li><i class="bx bx-chevron-right"></i> <a href="#">GeniusQuizz</a></li>
+              </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-6 footer-links">
+              <h4>Nos réseaux socials</h4>
+              <p>N'hésitez pas à nous soutenir</p>
+              <div class="social-links mt-3">
+                <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="container footer-bottom clearfix">
+        <div class="copyright">
+          &copy; Copyright <strong><span>GeniusQuizz</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+          Develop by Kiwi and Souf
+        </div>
+      </div>
+    </footer><!-- End Footer -->
+
+    <div id="preloader"></div>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
+  </div>
+
+  <div th:replace="base :: html_scripts"></div>
+
+</body>
+</html>

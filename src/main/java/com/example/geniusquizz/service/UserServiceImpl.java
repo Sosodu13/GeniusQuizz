@@ -3,6 +3,7 @@ package com.example.geniusquizz.service;
 import com.example.geniusquizz.model.Role;
 import com.example.geniusquizz.model.Session;
 import com.example.geniusquizz.model.User;
+import com.example.geniusquizz.repository.RoleRepository;
 import com.example.geniusquizz.repository.UserRepository;
 import com.example.geniusquizz.web.dto.UserDto;
 import org.springframework.beans.BeanUtils;
@@ -23,16 +24,29 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public User save(UserDto registrationDto) {
+
+        Role role = roleRepository.findByName("ROLE_USER");
+        Role roleFind;
+        if (role == null) {
+
+            roleFind = new Role("ROLE_USER");
+
+        } else {
+            roleFind = role;
+        }
+
         User user = new User(registrationDto.getFirstName(),
                 registrationDto.getLastName(),
                 registrationDto.getEmail(),
                 passwordEncoder.encode(registrationDto.getPassword()),
-                Set.of(new Role("ROLE_USER")),
-                Set.of(new Session()));
+                Set.of(roleFind));
 
         return userRepository.save(user);
 
@@ -67,25 +81,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto updateAccount(UserDto userDTO){
-
-//        UserDto returnUserDTO = new UserDto();
-//        User userEntityByUserId = userRepository.findUserById(userDTO.getId());
-//
-//        if (userEntityByUserId == null)
-//        {
-//            throw new UsernameNotFoundException("Utilisateur introuvable !!!!!!");
-//        }
-//
-//        userEntityByUserId.setFirstName(userDTO.getFirstName());
-//        userEntityByUserId.setLastName(userDTO.getLastName());
-//        userEntityByUserId.setEmail(userDTO.getEmail());
-//
-//        User updatedUserEntity = userRepository.save(userEntityByUserId);
-//
-//        BeanUtils.copyProperties(updatedUserEntity, returnUserDTO);
-//
-//        return returnUserDTO;
-
         User userEntityByUserId = userRepository.findByEmail(userDTO.getEmail());
 
         if (userEntityByUserId == null)

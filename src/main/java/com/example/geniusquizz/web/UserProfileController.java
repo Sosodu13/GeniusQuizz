@@ -39,6 +39,14 @@ public class UserProfileController {
             return "redirect:/login";
         }
 
+        boolean hasUserRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("SUPER_ADMIN"));
+
+        if (hasUserRole)
+        {
+            model.addAttribute("admin", true);
+        }
+
         model.addAttribute("user", userRepository.findByEmail(principal.getName()));
         return "profile";
     }
