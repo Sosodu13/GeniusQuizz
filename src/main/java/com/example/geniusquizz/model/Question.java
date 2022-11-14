@@ -38,4 +38,25 @@ public class Question {
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public Collection<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Collection<Answer> answers) {
+        this.answers = answers;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", libelle='" + libelle + '\'' +
+                ", answers=" + answers +
+                '}';
+    }
 }

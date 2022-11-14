@@ -24,6 +24,11 @@ public class Answer {
         this.right_answer = right_answer;
     }
 
+    public Answer(String libelle, Boolean right_answer) {
+        this.libelle = libelle;
+        this.right_answer = right_answer;
+    }
+
     public Long getId() { return Id; }
 
     public void setId(Long id) { Id = id; }
@@ -35,4 +40,9 @@ public class Answer {
     public Boolean getRight_answer() { return right_answer; }
 
     public void setRight_answer(Boolean right_answer) { this.right_answer = right_answer; }
+
+    @Override
+    public String toString() {
+        return libelle;
+    }
 }
