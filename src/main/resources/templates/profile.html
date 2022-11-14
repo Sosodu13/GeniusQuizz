@@ -41,9 +41,9 @@
 
       <ol>
         <li><a href="index.html">Accueil</a></li>
-        <li>Profile</li>
+        <li>Profil</li>
       </ol>
-      <h2>Profile</h2>
+      <h2>Profil</h2>
 
     </div>
   </section><!-- End Breadcrumbs -->
@@ -94,6 +94,11 @@
                     Tous les champs sont obligatoires ❌
                   </div>
                 </div>
+                <div th:if="${param.changeEmail}" class="mx-1 mx-md-4 ">
+                  <div class="alert alert-warning">
+                    Vous ne pouvez pas changer votre adresse mail ❌
+                  </div>
+                </div>
                 <form th:action="@{/profile/update}" method="post" th:object="${user}">
                   <input type="hidden" th:field="*{id}" />
                   <div class="row">
@@ -120,19 +125,35 @@
                       <h6 class="mb-0">Email</h6>
                     </div>
                     <div class="col-sm-9 text-secondary">
-                      <input type="text" class="form-control" id="email" th:field="*{email}" th:value="${email}" required/>
+                      <input type="email" class="form-control" id="email" th:field="*{email}" th:value="${email}" required/>
                     </div>
                   </div>
                   <hr>
                   <div class="row">
                     <div class="col-sm-12">
-                      <button type="submit" class="btn btn-info ">Enregistrer les modifications</button>
+                      <button type="submit" class="btn btn-info text-white">Enregistrer les modifications</button>
                     </div>
                   </div>
                 </form>
               </div>
             </div>
-
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-12 text-secondary text-center">
+                    <p>Administrateur</p>
+                  </div>
+                </div>
+                <hr>
+                  <div class="row">
+                    <div class="col-sm-12 text-center">
+                      <button type="submit" class="btn btn-secondary text-white mb-2 mt-2">Gestion des questions</button>
+                      <button type="submit" class="btn btn-secondary text-white mb-2 mt-2">Gestion des réponses</button>
+                      <button type="submit" class="btn btn-secondary text-white mb-2 mt-2">Gestion des Sessions</button>
+                    </div>
+                  </div>
+              </div>
+            </div>
           </div>
         </div>
 
