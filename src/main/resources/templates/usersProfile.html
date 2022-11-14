@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="/templates/base.html" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="base :: html_head">
-  <title layout:fragment="title">Accueil</title>
+  <title layout:fragment="title">Profiles - Utilisatuers</title>
 </head>
 
 <body sec:authorize="isAuthenticated()">
@@ -24,7 +24,7 @@
           <li><a class="nav-link scrollto" href="#services">Quizz</a></li>
           <li><a class="nav-link scrollto" href="#team">Équipe</a></li>
           <li><a class="nav-link scrollto" href="#contact">Nous contacter</a></li>
-          <li><a class="nav-link active" th:href="@{/profile}" ><span th:text="${user.getFirstName()}+' '+ |${user.getLastName()}|"></span></a></li>
+          <li><a class="nav-link active" th:href="@{/profile}" ><span th:text="${userConnected.getFirstName()}+' '+ |${userConnected.getLastName()}|"></span></a></li>
           <li><a class="getstarted scrollto" id="decoBt" th:href="@{/logout}">Déconnexion</a></li>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
@@ -40,10 +40,10 @@
     <div class="container">
 
       <ol>
-        <li><a href="index.html">Accueil</a></li>
-        <li>Profil</li>
+        <li><a href="index.html">Profil</a></li>
+        <li>Utilisateurs</li>
       </ol>
-      <h2>Profil</h2>
+      <h2>Utilisateurs</h2>
 
     </div>
   </section><!-- End Breadcrumbs -->
@@ -51,8 +51,8 @@
   <section class="inner-page">
     <div class="container">
       <div class="main-body">
-        <div class="row gutters-sm">
-          <div class="col-md-4 mb-3">
+        <div class="row gutters-sm" >
+          <div class="col-md-4 mb-3" th:each="user : ${users}">
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
@@ -62,7 +62,7 @@
                     <h4 th:text="${user.getEmail()}"></h4>
                     <p class="text-secondary mb-1">Full Stack Developer</p>
                     <p class="text-muted font-size-sm">Marseille</p>
-                    <a class="btn btn-primary text-white" th:href="@{/profile/users}">Voir d'autres profils</a>
+                    <a class="btn btn-primary text-white">Voir d'autres profils</a>
 <!--                    <button class="btn btn-outline-primary">Message</button>-->
                   </div>
                 </div>
@@ -87,89 +87,7 @@
               </ul>
             </div>
           </div>
-          <div class="col-md-8">
-            <div class="card mb-3">
-              <div class="card-body">
-                <div th:if="${param.success}" class="mx-1 mx-md-4 ">
-                  <div class="alert alert-success">
-                    Votre profil est à jour ! ✔
-                  </div>
-                </div>
-                <div th:if="${param.error}" class="mx-1 mx-md-4 ">
-                  <div class="alert alert-warning">
-                    Tous les champs sont obligatoires ❌
-                  </div>
-                </div>
-                <div th:if="${param.changeEmail}" class="mx-1 mx-md-4 ">
-                  <div class="alert alert-warning">
-                    Vous ne pouvez pas changer votre adresse mail ❌
-                  </div>
-                </div>
-                <form th:action="@{/profile/update}" method="post" th:object="${user}">
-                  <input type="hidden" th:field="*{id}" />
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Prénom</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      <input type="text" class="form-control" id="firstName" th:field="*{firstName}" th:value="${firstName}" required/>
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Nom</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      <input type="text" class="form-control" id="lastName" th:field="*{lastName}" th:value="${lastName}" required/>
-
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">GitHub Page</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      <input type="text" class="form-control" id="githubInfo" th:field="*{githubInfo}" th:value="${githubInfo}" placeholder="https://github.com/..." />
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Email</h6>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      <input type="email" class="form-control" id="email" th:field="*{email}" th:value="${email}" required/>
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <button type="submit" class="btn btn-info text-white">Enregistrer les modifications</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div class="card mb-3" th:if="${admin}">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-12 text-secondary text-center">
-                    <p>Administrateur</p>
-                  </div>
-                </div>
-                <hr>
-                  <div class="row">
-                    <div class="col-sm-12 text-center">
-                      <a class="btn btn-secondary text-white mb-2 mt-2" th:href="@{/admin/questions}">Gestion des questions</a>
-                    </div>
-                  </div>
-              </div>
-            </div>
-          </div>
         </div>
-
       </div>
     </div>
   </section>
