@@ -20,6 +20,9 @@ public class User {
     @Column(name = "last_name")
     private String lastName;
     private String email;
+
+    @Column(name = "github_info")
+    private String githubInfo;
     private String password;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
@@ -97,6 +100,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getGithubInfo() {
+        return githubInfo;
+    }
+
+    public void setGithubInfo(String githubInfo) {
+        this.githubInfo = githubInfo;
     }
 
     public Set<Role> getRoles() {

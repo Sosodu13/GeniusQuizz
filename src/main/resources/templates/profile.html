@@ -76,7 +76,13 @@
                     </svg>
                     Github
                   </h6>
-                  <span class="text-secondary">Pas encore renseigné</span>
+                  <span class="text-secondary" th:if="${user.getGithubInfo().isEmpty()}">
+                    Pas encore renseigné
+                  </span>
+
+                  <span class="text-secondary" th:if="${not user.getGithubInfo().isEmpty()}">
+                    <a target="_blank" th:href="${user.getGithubInfo()}" th:text="${user.getGithubInfo()}"></a>
+                  </span>
                 </li>
               </ul>
             </div>
@@ -117,6 +123,15 @@
                     <div class="col-sm-9 text-secondary">
                       <input type="text" class="form-control" id="lastName" th:field="*{lastName}" th:value="${lastName}" required/>
 
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">GitHub Page</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                      <input type="text" class="form-control" id="githubInfo" th:field="*{githubInfo}" th:value="${githubInfo}" placeholder="https://github.com/..." />
                     </div>
                   </div>
                   <hr>

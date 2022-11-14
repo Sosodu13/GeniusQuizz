@@ -50,6 +50,7 @@ public class AdminController {
             return "redirect:/";
         }
         model.addAttribute("user", userRepository.findByEmail(principal.getName()));
+        model.addAttribute("users", userRepository.findAll());
         model.addAttribute("questions", questionRepository.findAll());
         System.out.println(questionRepository.findAll());
 

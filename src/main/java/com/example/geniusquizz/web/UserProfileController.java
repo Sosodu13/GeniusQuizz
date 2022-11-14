@@ -71,6 +71,8 @@ public class UserProfileController {
             return "redirect:/profile?changeEmail";
         }
 
+        System.out.println(user);
+
         userService.updateAccount(user);
 
         return "redirect:/profile?success";

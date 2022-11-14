@@ -16,6 +16,7 @@ public class UserDto implements Serializable {
     private String lastName;
     private String email;
     private String password;
+    private String githubInfo;
     private Set<Role> roles;
     private Set<Session> sessions;
 
@@ -73,6 +74,14 @@ public class UserDto implements Serializable {
         this.password = password;
     }
 
+    public String getGithubInfo() {
+        return githubInfo;
+    }
+
+    public void setGithubInfo(String githubInfo) {
+        this.githubInfo = githubInfo;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }
@@ -87,5 +96,19 @@ public class UserDto implements Serializable {
 
     public void setSessions(Set<Session> sessions) {
         this.sessions = sessions;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDto{" +
+                "Id=" + Id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", githubInfo='" + githubInfo + '\'' +
+                ", roles=" + roles +
+                ", sessions=" + sessions +
+                '}';
     }
 }
