@@ -18,12 +18,7 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto " href="#hero">Accueil</a></li>
-          <li><a class="nav-link scrollto" href="#about">A propos de nous</a></li>
-          <li><a class="nav-link scrollto" href="#advanced">Votre avancé</a></li>
-          <li><a class="nav-link scrollto" href="#services">Quizz</a></li>
-          <li><a class="nav-link scrollto" href="#team">Équipe</a></li>
-          <li><a class="nav-link scrollto" href="#contact">Nous contacter</a></li>
+          <li><a class="nav-link scrollto" th:href="@{/}">Accueil</a></li>
           <li><a class="nav-link active" th:href="@{/profile}" ><span th:text="${user.getFirstName()}+' '+ |${user.getLastName()}|"></span></a></li>
           <li><a class="getstarted scrollto" id="decoBt" th:href="@{/logout}">Déconnexion</a></li>
         </ul>
@@ -192,19 +187,19 @@
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Liens utiles</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#hero">Accueil</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#about">A propos de nous</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#advanced">Votre avancé</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#services">Quizz</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#team">Équipe</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#contact">Nous contacter</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#hero}">Accueil</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#about}">A propos de nous</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#advanced}">Votre avancé</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#services}">Quizz</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#team}">Équipe</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#contact}">Nous contacter</a></li>
             </ul>
           </div>
 
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Nos sites</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">GeniusQuizz</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a th:href="@{/}">GeniusQuizz</a></li>
             </ul>
           </div>
 

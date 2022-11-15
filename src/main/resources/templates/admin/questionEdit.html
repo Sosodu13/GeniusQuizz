@@ -18,12 +18,7 @@
 
         <nav id="navbar" class="navbar">
           <ul>
-            <li><a class="nav-link scrollto " href="#hero">Accueil</a></li>
-            <li><a class="nav-link scrollto" href="#about">A propos de nous</a></li>
-            <li><a class="nav-link scrollto" href="#advanced">Votre avancé</a></li>
-            <li><a class="nav-link scrollto" href="#services">Quizz</a></li>
-            <li><a class="nav-link scrollto" href="#team">Équipe</a></li>
-            <li><a class="nav-link scrollto" href="#contact">Nous contacter</a></li>
+            <li><a class="nav-link scrollto" th:href="@{/}">Accueil</a></li>
             <li><a class="nav-link" th:href="@{/profile}" ><span th:text="${user.getFirstName()}+' '+ |${user.getLastName()}|"></span></a></li>
             <li><a class="getstarted scrollto" id="decoBt" th:href="@{/logout}">Déconnexion</a></li>
           </ul>
@@ -42,9 +37,9 @@
           <ol>
             <li><a href="index.html">Admin</a></li>
             <li>Question</li>
-            <li>Ajout</li>
+            <li>Edition</li>
           </ol>
-          <h2>Ajout de question</h2>
+          <h2>Edition d'une question</h2>
 
         </div>
       </section><!-- End Breadcrumbs -->
@@ -60,7 +55,7 @@
                       <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
                       <div class="mt-3">
                         <h4 th:text="${user.getEmail()}"></h4>
-                        <p class="text-secondary mb-1">Page Administrateur</p>
+                        <p class="text-secondary mb-1">Connecté en tant qu'Administrateur</p>
                       </div>
                     </div>
                   </div>
@@ -69,9 +64,9 @@
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                       <h6 class="mb-0">
-                        Nombre d'utilisateurs
+                        Nombre de Quizzs
                       </h6>
-                      <span class="text-secondary"><span class="badge text-bg-primary">5</span></span>
+                      <span class="text-secondary"><span class="badge text-bg-primary" th:text="${questions.size()}"></span></span>
                     </li>
                   </ul>
                 </div>
@@ -90,83 +85,35 @@
                       </div>
                     </div>
 
-<!--                    <form th:action="@{/admin/question/edit/{id}(id = ${question.id})}" method="post">-->
-                    <form th:action="@{/admin/question/edit}" method="post">
+                    <form th:action="@{/admin/question/edit/{id}(id = ${question.id})}" method="post">
                       <!-- Questions -->
 
                       <div class="form-group">
                         <label for="IQuest">Question ?</label>
-                        <input type="text" class="form-control" name="IQuest" id="IQuest" aria-describedby="emailHelp" th:field="*{libelle}" th:value="${question.libelle}" />
+                        <input type="text" class="form-control" name="IQuest" id="IQuest" aria-describedby="emailHelp" th:value="${question.libelle}" />
                         <small id="emailHelp" class="form-text text-muted">Place à votre imagination 🎉</small>
                       </div>
                       <hr>
                       <!-- Fin Questions -->
-                      <div th:each="index, a : ${answers}">
+                      <div th:each="answer,index : ${question.answers}">
                         <div class="form-group">
-                          <label th:for="IRep+index">Réponse 1</label>
-                          <input type="text" class="form-control" th:id="IRep+index" th:name="IRep+index" th:value="${a.libelle}"/>
+                          <label th:for="IRep+${index.count}">Réponse <span th:text="${index.count}"></span></label>
+                          <input type="text" class="form-control" th:id="IRep+${index.count}" th:name="IRep+${index.count}" th:value="${answer.libelle}"/>
+                          <input type="hidden" th:id="IRepH+${index.count}" th:name="IRepH+${index.count}" th:value="${answer.id}"/>
                         </div>
 
                         <div class="form-check mb-3">
-                          <div th:if="${a.right_answer}">
-                            <input type="radio" class="form-check-input" name="Radio" th:id="CheckRep+index" th:value="rep+index" checked="checked" required>
+                          <div th:if="${answer.right_answer}">
+                            <input type="radio" class="form-check-input" name="Radio" th:id="CheckRep+${index.count}" th:value="rep+${index.count}" checked="checked" required>
                           </div>
-                          <div th:unless="${a.right_answer}">
-                            <input type="radio" class="form-check-input" name="Radio" th:id="CheckRep+index" th:value="rep+index" required>
+                          <div th:unless="${answer.right_answer}">
+                            <input type="radio" class="form-check-input" name="Radio" th:id="CheckRep+${index.count}" th:value="rep+${index.count}" required>
                           </div>
-                          <label class="form-check-label" th:for="CheckRep+index">Bonne réponse ?</label>
+                          <label class="form-check-label" th:for="CheckRep+${index.count}">Bonne réponse ?</label>
                         </div>
                       </div>
 
-<!--                      &lt;!&ndash; Réponses 1 &ndash;&gt;-->
-<!--                      <div class="form-group">-->
-<!--                        <label for="IRep1">Réponse 1</label>-->
-<!--                        <input type="text" class="form-control" id="IRep1" name="IRep1" th:field="*{rep1}" th:value="${answers.get}"/>-->
-<!--                      </div>-->
-
-<!--                      <div class="form-check mb-3">-->
-<!--                        <input type="radio" class="form-check-input" name="Radio" id="CheckRep1" value="rep1" required>-->
-<!--                        <label class="form-check-label" for="CheckRep1">Bonne réponse ?</label>-->
-<!--                      </div>-->
-<!--                      &lt;!&ndash; Fin Réponses &ndash;&gt;-->
-
-<!--                      &lt;!&ndash; Réponses 2 &ndash;&gt;-->
-<!--                      <div class="form-group">-->
-<!--                        <label for="IRep2">Réponse 2</label>-->
-<!--                        <input type="text" class="form-control" id="IRep2" name="IRep2" />-->
-<!--                      </div>-->
-
-<!--                      <div class="form-check mb-3">-->
-<!--                        <input type="radio" class="form-check-input" name="Radio" id="CheckRep2" value="rep2">-->
-<!--                        <label class="form-check-label" for="CheckRep2">Bonne réponse ?</label>-->
-<!--                      </div>-->
-<!--                      &lt;!&ndash; Fin Réponses &ndash;&gt;-->
-
-<!--                      &lt;!&ndash; Réponses 3 &ndash;&gt;-->
-<!--                      <div class="form-group">-->
-<!--                        <label for="IRep3">Réponse 3</label>-->
-<!--                        <input type="text" class="form-control" id="IRep3" name="IRep3" />-->
-<!--                      </div>-->
-
-<!--                      <div class="form-check mb-3">-->
-<!--                        <input type="radio" class="form-check-input" name="Radio" id="CheckRep3" value="rep3">-->
-<!--                        <label class="form-check-label" for="CheckRep3">Bonne réponse ?</label>-->
-<!--                      </div>-->
-<!--                      &lt;!&ndash; Fin Réponses &ndash;&gt;-->
-
-<!--                      &lt;!&ndash; Réponses 4 &ndash;&gt;-->
-<!--                      <div class="form-group">-->
-<!--                        <label for="IRep4">Réponse 4</label>-->
-<!--                        <input type="text" class="form-control" id="IRep4" name="IRep4" />-->
-<!--                      </div>-->
-
-<!--                      <div class="form-check mb-3">-->
-<!--                        <input type="radio" class="form-check-input" name="Radio" id="CheckRep4" value="rep4">-->
-<!--                        <label class="form-check-label" for="CheckRep4">Bonne réponse ?</label>-->
-<!--                      </div>-->
-<!--                      &lt;!&ndash; Fin Réponses &ndash;&gt;-->
-
-                      <button type="submit" class="btn btn-primary">Enregistrer la question</button>
+                      <button type="submit" class="btn btn-primary">Modifier la question</button>
                     </form>
                     <hr>
                     <a class="btn btn-info text-white" th:href="@{/admin/questions}">Retour aux questions</a>
@@ -197,19 +144,19 @@
             <div class="col-lg-3 col-md-6 footer-links">
               <h4>Liens utiles</h4>
               <ul>
-                <li><i class="bx bx-chevron-right"></i> <a href="#hero">Accueil</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#about">A propos de nous</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#advanced">Votre avancé</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#services">Quizz</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#team">Équipe</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#contact">Nous contacter</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#hero}">Accueil</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#about}">A propos de nous</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#advanced}">Votre avancé</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#services}">Quizz</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#team}">Équipe</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#contact}">Nous contacter</a></li>
               </ul>
             </div>
 
             <div class="col-lg-3 col-md-6 footer-links">
               <h4>Nos sites</h4>
               <ul>
-                <li><i class="bx bx-chevron-right"></i> <a href="#">GeniusQuizz</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/}">GeniusQuizz</a></li>
               </ul>
             </div>
 

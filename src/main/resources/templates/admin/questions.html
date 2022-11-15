@@ -18,12 +18,7 @@
 
         <nav id="navbar" class="navbar">
           <ul>
-            <li><a class="nav-link scrollto " href="#hero">Accueil</a></li>
-            <li><a class="nav-link scrollto" href="#about">A propos de nous</a></li>
-            <li><a class="nav-link scrollto" href="#advanced">Votre avancé</a></li>
-            <li><a class="nav-link scrollto" href="#services">Quizz</a></li>
-            <li><a class="nav-link scrollto" href="#team">Équipe</a></li>
-            <li><a class="nav-link scrollto" href="#contact">Nous contacter</a></li>
+            <li><a class="nav-link scrollto" th:href="@{/}">Accueil</a></li>
             <li><a class="nav-link" th:href="@{/profile}" ><span th:text="${user.getFirstName()}+' '+ |${user.getLastName()}|"></span></a></li>
             <li><a class="getstarted scrollto" id="decoBt" th:href="@{/logout}">Déconnexion</a></li>
           </ul>
@@ -59,7 +54,7 @@
                       <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
                       <div class="mt-3">
                         <h4 th:text="${user.getEmail()}"></h4>
-                        <p class="text-secondary mb-1">Page Administrateur</p>
+                        <p class="text-secondary mb-1">Connecté en tant qu'Administrateur</p>
                       </div>
                     </div>
                   </div>
@@ -78,19 +73,14 @@
               <div class="col-md-8">
                 <div class="card mb-3">
                   <div class="card-body">
-                    <div th:if="${param.success}" class="mx-1 mx-md-4 ">
+                    <div th:if="${param.successEdit}" class="mx-1 mx-md-4 ">
                       <div class="alert alert-success">
-                        ...
+                        La question et les réponses ont bien été modifiée ✔
                       </div>
                     </div>
-                    <div th:if="${param.error}" class="mx-1 mx-md-4 ">
-                      <div class="alert alert-warning">
-                        ...
-                      </div>
-                    </div>
-                    <div th:if="${param.changeEmail}" class="mx-1 mx-md-4 ">
-                      <div class="alert alert-warning">
-                        ...
+                    <div th:if="${param.delete}" class="mx-1 mx-md-4 ">
+                      <div class="alert alert-info">
+                        La question et les réponses ont bien été supprimée ✔
                       </div>
                     </div>
 
@@ -100,6 +90,7 @@
                         <th scope="col">Id</th>
                         <th scope="col">Nom de la question</th>
                         <th scope="col">Les réponses</th>
+                        <th scope="col">Actions</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -152,6 +143,13 @@
                             </div>
                           </div>
                         </td>
+                        <td>
+                          <form th:action="@{/admin/question/delete/{id}(id = ${q.id})}" method="post">
+                            <button type="submit" class="btn btn-danger">
+                              Supprimer
+                            </button>
+                          </form>
+                        </td>
                       </tr>
                       </tbody>
                     </table>
@@ -184,19 +182,19 @@
             <div class="col-lg-3 col-md-6 footer-links">
               <h4>Liens utiles</h4>
               <ul>
-                <li><i class="bx bx-chevron-right"></i> <a href="#hero">Accueil</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#about">A propos de nous</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#advanced">Votre avancé</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#services">Quizz</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#team">Équipe</a></li>
-                <li><i class="bx bx-chevron-right"></i> <a href="#contact">Nous contacter</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#hero}">Accueil</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#about}">A propos de nous</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#advanced}">Votre avancé</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#services}">Quizz</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#team}">Équipe</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/#contact}">Nous contacter</a></li>
               </ul>
             </div>
 
             <div class="col-lg-3 col-md-6 footer-links">
               <h4>Nos sites</h4>
               <ul>
-                <li><i class="bx bx-chevron-right"></i> <a href="#">GeniusQuizz</a></li>
+                <li><i class="bx bx-chevron-right"></i> <a th:href="@{/}">GeniusQuizz</a></li>
               </ul>
             </div>
 
