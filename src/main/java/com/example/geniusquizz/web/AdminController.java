@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,6 +72,49 @@ public class AdminController {
         model.addAttribute("user", userRepository.findByEmail(principal.getName()));
 
         return "admin/questionAdd";
+    }
+
+    @GetMapping("question/edit/{id}")
+    public String adminEditQuestion(@PathVariable("id") int id, Model model, Principal principal){
+
+        if(principal.getName() == null)
+        {
+            return "redirect:/login";
+        }
+
+        boolean hasUserRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("SUPER_ADMIN"));
+
+        if (!hasUserRole)
+        {
+            return "redirect:/";
+        }
+        System.out.println(questionRepository.findById((long) id));
+        model.addAttribute("user", userRepository.findByEmail(principal.getName()));
+        model.addAttribute("question", questionRepository.findById((long) id));
+
+        return "admin/questionEdit";
+    }
+
+    @PostMapping("question/edit/{id}")
+    public String adminPostEditQuestion(@PathVariable("id") int id, Model model, Principal principal){
+
+        if(principal.getName() == null)
+        {
+            return "redirect:/login";
+        }
+
+        boolean hasUserRole = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                .anyMatch(r -> r.getAuthority().equals("SUPER_ADMIN"));
+
+        if (!hasUserRole)
+        {
+            return "redirect:/";
+        }
+        model.addAttribute("user", userRepository.findByEmail(principal.getName()));
+        model.addAttribute("question", questionRepository.findById((long) id));
+
+        return "admin/questionEdit";
     }
 
     @PostMapping("question/add")

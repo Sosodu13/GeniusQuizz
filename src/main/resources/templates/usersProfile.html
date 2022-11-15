@@ -62,8 +62,7 @@
                     <h4 th:text="${user.getEmail()}"></h4>
                     <p class="text-secondary mb-1">Full Stack Developer</p>
                     <p class="text-muted font-size-sm">Marseille</p>
-                    <a class="btn btn-primary text-white">Voir d'autres profils</a>
-<!--                    <button class="btn btn-outline-primary">Message</button>-->
+                    <p class="btn btn-primary text-white">Il a réalisé <span th:text="${user.sessions.size}"></span> sessions</p>
                   </div>
                 </div>
               </div>

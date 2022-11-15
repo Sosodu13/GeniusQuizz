@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorator="/templates/base.html" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="base :: html_head">
-  <title layout:fragment="title">Admin - Questions</title>
+  <title layout:fragment="title">Admin - Ajout de question</title>
 </head>
 
 <body sec:authorize="isAuthenticated()">
@@ -41,9 +41,10 @@
 
           <ol>
             <li><a href="index.html">Admin</a></li>
-            <li>Questions</li>
+            <li>Question</li>
+            <li>Ajout</li>
           </ol>
-          <h2>Liste des questions</h2>
+          <h2>Ajout de question</h2>
 
         </div>
       </section><!-- End Breadcrumbs -->
@@ -70,7 +71,7 @@
                       <h6 class="mb-0">
                         Nombre d'utilisateurs
                       </h6>
-                      <span class="text-secondary"><span class="badge text-bg-primary" th:text="${users.size()}"></span></span>
+                      <span class="text-secondary"><span class="badge text-bg-primary">5</span></span>
                     </li>
                   </ul>
                 </div>
@@ -80,7 +81,7 @@
                   <div class="card-body">
                     <div th:if="${param.success}" class="mx-1 mx-md-4 ">
                       <div class="alert alert-success">
-                        ...
+                        La question et les réponses sont ajoutées avec succès ✔
                       </div>
                     </div>
                     <div th:if="${param.error}" class="mx-1 mx-md-4 ">
@@ -88,75 +89,87 @@
                         ...
                       </div>
                     </div>
-                    <div th:if="${param.changeEmail}" class="mx-1 mx-md-4 ">
-                      <div class="alert alert-warning">
-                        ...
+
+<!--                    <form th:action="@{/admin/question/edit/{id}(id = ${question.id})}" method="post">-->
+                    <form th:action="@{/admin/question/edit}" method="post">
+                      <!-- Questions -->
+
+                      <div class="form-group">
+                        <label for="IQuest">Question ?</label>
+                        <input type="text" class="form-control" name="IQuest" id="IQuest" aria-describedby="emailHelp" th:field="*{libelle}" th:value="${question.libelle}" />
+                        <small id="emailHelp" class="form-text text-muted">Place à votre imagination 🎉</small>
                       </div>
-                    </div>
+                      <hr>
+                      <!-- Fin Questions -->
+                      <div th:each="index, a : ${answers}">
+                        <div class="form-group">
+                          <label th:for="IRep+index">Réponse 1</label>
+                          <input type="text" class="form-control" th:id="IRep+index" th:name="IRep+index" th:value="${a.libelle}"/>
+                        </div>
 
-                    <table class="table" th:if="${ questions.size() > 0 }">
-                      <thead>
-                      <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Nom de la question</th>
-                        <th scope="col">Les réponses</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr class="align-middle" th:each="q : ${questions}">
-                        <th scope="row"><a th:href="@{/admin/question/edit/{id}(id = ${q.id})}" th:text="${q.id}"></a></th>
-                        <td th:text="${q.libelle}"></td>
-                        <td>
-                          <!-- Button trigger modal -->
-                          <button type="button" class="btn btn-primary" data-toggle="modal" th:attr="data-target='#'+${q.id}">
-                            Les réponses
-                          </button>
-
-                          <!-- Modal -->
-                          <div class="modal fade" th:attr="id=${q.id}" tabindex="-1" role="dialog" aria-labelledby="Reponses" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLongTitle">Réponse de la question <b><span th:text="${q.libelle}"></span></b></h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  <table class="table" th:if="${ q.answers.size() > 0 }">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">#</th>
-                                      <th scope="col">Nom de la réponse</th>
-                                      <th scope="col">Bonne réponse</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr class="align-middle" th:each="a : ${q.answers}">
-                                      <th scope="row" th:text="${a.id}"></th>
-                                      <td th:text="${a.libelle}"></td>
-                                      <td th:if="${a.right_answer}">
-                                        Oui
-                                      </td>
-                                      <td th:if="${!a.right_answer}">
-                                        Non
-                                      </td>
-                                    </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
-                                </div>
-                              </div>
-                            </div>
+                        <div class="form-check mb-3">
+                          <div th:if="${a.right_answer}">
+                            <input type="radio" class="form-check-input" name="Radio" th:id="CheckRep+index" th:value="rep+index" checked="checked" required>
                           </div>
-                        </td>
-                      </tr>
-                      </tbody>
-                    </table>
+                          <div th:unless="${a.right_answer}">
+                            <input type="radio" class="form-check-input" name="Radio" th:id="CheckRep+index" th:value="rep+index" required>
+                          </div>
+                          <label class="form-check-label" th:for="CheckRep+index">Bonne réponse ?</label>
+                        </div>
+                      </div>
 
-                    <a class="btn btn-success" th:href="@{/admin/question/add}">Ajout de questions</a>
+<!--                      &lt;!&ndash; Réponses 1 &ndash;&gt;-->
+<!--                      <div class="form-group">-->
+<!--                        <label for="IRep1">Réponse 1</label>-->
+<!--                        <input type="text" class="form-control" id="IRep1" name="IRep1" th:field="*{rep1}" th:value="${answers.get}"/>-->
+<!--                      </div>-->
+
+<!--                      <div class="form-check mb-3">-->
+<!--                        <input type="radio" class="form-check-input" name="Radio" id="CheckRep1" value="rep1" required>-->
+<!--                        <label class="form-check-label" for="CheckRep1">Bonne réponse ?</label>-->
+<!--                      </div>-->
+<!--                      &lt;!&ndash; Fin Réponses &ndash;&gt;-->
+
+<!--                      &lt;!&ndash; Réponses 2 &ndash;&gt;-->
+<!--                      <div class="form-group">-->
+<!--                        <label for="IRep2">Réponse 2</label>-->
+<!--                        <input type="text" class="form-control" id="IRep2" name="IRep2" />-->
+<!--                      </div>-->
+
+<!--                      <div class="form-check mb-3">-->
+<!--                        <input type="radio" class="form-check-input" name="Radio" id="CheckRep2" value="rep2">-->
+<!--                        <label class="form-check-label" for="CheckRep2">Bonne réponse ?</label>-->
+<!--                      </div>-->
+<!--                      &lt;!&ndash; Fin Réponses &ndash;&gt;-->
+
+<!--                      &lt;!&ndash; Réponses 3 &ndash;&gt;-->
+<!--                      <div class="form-group">-->
+<!--                        <label for="IRep3">Réponse 3</label>-->
+<!--                        <input type="text" class="form-control" id="IRep3" name="IRep3" />-->
+<!--                      </div>-->
+
+<!--                      <div class="form-check mb-3">-->
+<!--                        <input type="radio" class="form-check-input" name="Radio" id="CheckRep3" value="rep3">-->
+<!--                        <label class="form-check-label" for="CheckRep3">Bonne réponse ?</label>-->
+<!--                      </div>-->
+<!--                      &lt;!&ndash; Fin Réponses &ndash;&gt;-->
+
+<!--                      &lt;!&ndash; Réponses 4 &ndash;&gt;-->
+<!--                      <div class="form-group">-->
+<!--                        <label for="IRep4">Réponse 4</label>-->
+<!--                        <input type="text" class="form-control" id="IRep4" name="IRep4" />-->
+<!--                      </div>-->
+
+<!--                      <div class="form-check mb-3">-->
+<!--                        <input type="radio" class="form-check-input" name="Radio" id="CheckRep4" value="rep4">-->
+<!--                        <label class="form-check-label" for="CheckRep4">Bonne réponse ?</label>-->
+<!--                      </div>-->
+<!--                      &lt;!&ndash; Fin Réponses &ndash;&gt;-->
+
+                      <button type="submit" class="btn btn-primary">Enregistrer la question</button>
+                    </form>
+                    <hr>
+                    <a class="btn btn-info text-white" th:href="@{/admin/questions}">Retour aux questions</a>
 
                   </div>
                 </div>
