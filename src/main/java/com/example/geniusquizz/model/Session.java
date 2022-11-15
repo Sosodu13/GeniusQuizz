@@ -1,7 +1,7 @@
 package com.example.geniusquizz.model;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.*;
 
 @Entity
 @Table(name = "session")
@@ -25,14 +25,13 @@ public class Session {
                     name = "question_id", referencedColumnName = "id"
             )
     )
-    private Collection<Question> questions;
+    private Set<Question> questions = new HashSet<>();
 
-
-    public Session(Integer score, Integer life, Collection<Question> questions) {
+    public Session(Integer score, Integer life) {
         super();
         this.score = score;
         this.life = life;
-        this.questions = questions;
+        this.questions = new HashSet<>();
     }
 
     public Session() {
@@ -51,7 +50,17 @@ public class Session {
 
     public void setLife(Integer life) { this.life = life; }
 
-    public Collection<Question> getQuestions() { return questions; }
+    public Set<Question> getQuestions() { return questions; }
 
-    public void setQuestions(Collection<Question> questions) { this.questions = questions; }
+    public void setQuestions(Set<Question> questions) { this.questions = questions; }
+
+    @Override
+    public String toString() {
+        return "Session{" +
+                "id=" + Id +
+                ", life='" + life + '\'' +
+                ", score='" + score + '\'' +
+                ", questions=" + questions +
+                '}';
+    }
 }
