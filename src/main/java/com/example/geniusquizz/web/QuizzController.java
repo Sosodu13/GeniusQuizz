@@ -40,6 +40,7 @@ public class QuizzController {
 
         Session session = sessionService.findById(id);
         if(session.getLife() == 0) {
+            httpSession.setAttribute("session_quizz",session);
             return "redirect:/gameover";
         }
 
@@ -84,6 +85,7 @@ public class QuizzController {
         if(session.getLife() > 0){
             return "redirect:/quizz/" + session_id;
         } else {
+            httpSession.setAttribute("session_quizz",session);
             return "redirect:/gameover";
         }
     }
