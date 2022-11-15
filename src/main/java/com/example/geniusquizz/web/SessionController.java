@@ -26,7 +26,7 @@ public class SessionController {
     public String sessions(Model model, Principal principal) {
         model.addAttribute("sessions", sessionService.getAll());
         model.addAttribute("user", userRepository.findByEmail(principal.getName()));
-        return "sessions.html";
+        return "sessions";
     }
 
     @GetMapping("/sessions/new")
