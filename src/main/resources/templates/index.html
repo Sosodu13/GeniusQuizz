@@ -18,6 +18,7 @@
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><a class="nav-link scrollto active" href="#hero">Accueil</a></li>
+                    <li><a class="nav-link scrollto" href="#score">Score</a></li>
                     <li><a class="nav-link scrollto" href="#about">A propos de nous</a></li>
                     <li><a class="nav-link scrollto" href="#advanced">Votre avancé</a></li>
                     <li><a class="nav-link scrollto" href="#services">Quizz</a></li>
@@ -57,6 +58,72 @@
     <main id="main">
 
         <!-- ======= About Us Section ======= -->
+        <section id="score" class="about">
+            <div class="section-title">
+                <h2>Tableau des scores</h2>
+            </div>
+            <div class="scoreboard" th:if="${podium}">
+                <div class="scoreboard__podiums">
+                    <div class="scoreboard__podium js-podium" data-height="200px">
+                        <div class="scoreboard__podium-base scoreboard__podium-base--second">
+                            <div class="scoreboard__podium-rank">2</div>
+                        </div>
+                        <div class="scoreboard__podium-number">
+                            <span th:text="${top2Email}"></span>
+                            <small><span class="js-podium-data" th:text="'Score total de '+${top2Score}"></span></small>
+                        </div>
+
+                    </div>
+                    <div class="scoreboard__podium js-podium" data-height="250px">
+                        <div class="scoreboard__podium-base scoreboard__podium-base--first">
+                            <div class="scoreboard__podium-rank">1</div>
+
+                        </div>
+                        <div class="scoreboard__podium-number">
+                            <span th:text="${top1Email}"></span>
+                            <small><span class="js-podium-data" th:text="'Score total de '+${top1Score}"></span></small>
+                        </div>
+                    </div>
+                    <div class="scoreboard__podium js-podium" data-height="150px">
+                        <div class="scoreboard__podium-base scoreboard__podium-base--third">
+                            <div class="scoreboard__podium-rank">3</div>
+                        </div>
+                        <div class="scoreboard__podium-number">
+                            <span th:text="${top3Email}"></span>
+                            <small><span class="js-podium-data" th:text="'Score total de '+${top3Score}"></span></small>
+                        </div>
+                    </div>
+                </div>
+
+<!--                <div style="max-height: 200px!important; overflow-y: scroll">-->
+<!--                    <table class="table">-->
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                            <th scope="col">#</th>-->
+<!--                            <th scope="col">Pseudo</th>-->
+<!--                            <th scope="col">Score</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <tr>-->
+<!--                            <th scope="row">1</th>-->
+<!--                            <td>Souf</td>-->
+<!--                            <td>32</td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+            </div>
+            <div class="container" th:unless="${podium}">
+                <div class="text-center">
+                    <p>
+                        Pas encore de données suffisantes pour créer un podium 🤷‍
+                    </p>
+                </div>
+            </div>
+        </section><!-- End About Us Section -->
+
+        <!-- ======= About Us Section ======= -->
         <section id="about" class="about section-bg">
             <div class="container" data-aos="fade-up">
 
@@ -79,7 +146,6 @@
                         <a href="#contact" class="btn-learn-more">Proposer de nouveau Quizz 🎁</a>
                     </div>
                 </div>
-
             </div>
         </section><!-- End About Us Section -->
 
@@ -313,5 +379,336 @@
 
     <div th:replace="base :: html_scripts"></div>
 
+    <style>
+        .number-holder {
+            transition: all 500ms ease-in-out;
+        }
+
+        .scoreboard {
+            border-radius: 5px;
+            display: flex;
+            max-width: 1170px;
+            margin: 0 auto;
+            padding: 3rem 50px;
+            flex-direction: column;
+            background: #fff;
+        }
+        .scoreboard__item {
+            display: flex;
+            padding: 1rem 0;
+            width: 100%;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            top: 20px;
+            transition: 500ms ease-in-out;
+        }
+        .scoreboard__item.is-visible {
+            opacity: 1;
+            top: 0;
+            transition: 500ms ease-in-out;
+        }
+        .scoreboard__title {
+            width: 300px;
+            font-weight: 600;
+        }
+        .scoreboard__title small {
+            color: #333;
+        }
+        .scoreboard__status {
+            font-weight: 300;
+        }
+        .scoreboard__numbers {
+            font-weight: 600;
+            text-align: right;
+            align-self: flex-end;
+            margin-left: 20px;
+            flex: 1;
+        }
+        .scoreboard__bar {
+            width: 100%;
+            margin-top: 1rem;
+            background: #ececec;
+            height: 10px;
+            position: relative;
+            border-radius: 5px;
+            transition: all 500ms ease-in-out;
+            display: flex;
+            flex-basis: 100%;
+        }
+        .scoreboard__bar:before {
+            content: "";
+            width: 100%;
+            flex-basis: 100%;
+            clear: both;
+            display: block;
+        }
+        .scoreboard__bar-bar {
+            position: absolute;
+            height: 10px;
+            left: 0;
+            top: 0;
+            width: 0;
+            border-radius: 5px;
+            background: linear-gradient(to right, #F0CF65 0%, #ebc137 100%);
+            transition: all 250ms ease-in-out;
+        }
+
+        .scoreboard__podiums {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            margin: 20px auto 100px auto;
+            min-height: 350px;
+        }
+        .scoreboard__podiums .scoreboard__podium {
+            margin: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-self: flex-end;
+            flex-wrap: wrap;
+            flex: 1;
+            opacity: 0;
+            top: -10px;
+        }
+        .scoreboard__podiums .scoreboard__podium.is-visible {
+            top: 0;
+            opacity: 1;
+            transition: all 500ms ease-in-out;
+        }
+        .scoreboard__podiums .scoreboard__podium-rank {
+            font-size: 4rem;
+            font-weight: 700;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            bottom: 0px;
+        }
+        .scoreboard__podiums .scoreboard__podium-base {
+            height: 0;
+            background: #ececec;
+            color: #fff;
+            min-width: 150px;
+            border-radius: 5px;
+            transition: all 1000ms ease-in-out;
+            opacity: 0;
+            position: relative;
+        }
+        .scoreboard__podiums .scoreboard__podium-base.is-expanding {
+            opacity: 1;
+        }
+        .scoreboard__podiums .scoreboard__podium-base--first {
+            background: linear-gradient(to bottom, #BD4F6C 0%, #9e3b55 100%);
+        }
+        .scoreboard__podiums .scoreboard__podium-base--second {
+            background-color: #F0CF65;
+            background: linear-gradient(to bottom, #F0CF65 0%, #ebc137 100%);
+        }
+        .scoreboard__podiums .scoreboard__podium-base--third {
+            background-color: #5E9EAD;
+            background: linear-gradient(to bottom, #5E9EAD 0%, #49828f 100%);
+        }
+        .scoreboard__podiums .scoreboard__podium-number {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-top: 10px;
+        }
+        .scoreboard__podiums .scoreboard__podium-number small {
+            display: block;
+            font-size: 60%;
+            color: #333;
+            line-height: 1.5;
+            text-transform: uppercase;
+        }
+
+        .credits {
+            font-size: 14px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #scoreboard__items {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            list-style-type: decimal;
+        }
+
+        .oneup-audio {
+            display: none;
+        }
+
+        .style-switch {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #000;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            font-size: 15px;
+        }
+
+        .bump {
+            -webkit-animation: bump 500ms ease-in-out;
+            animation: bump 500ms ease-in-out;
+        }
+
+        @-webkit-keyframes bump {
+            50% {
+                transform: scale(1.1);
+            }
+            60% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes bump {
+            50% {
+                transform: scale(1.1);
+            }
+            60% {
+                transform: scale(1);
+            }
+        }
+    </style>
+
+<script>
+    var sum = 1000; // rank 1.
+    var time = 250;
+
+    $(document).ready(function() {
+
+        $('body').addClass('dark-mode');
+
+        $('.js-style-switch').on('click', function(e) {
+            e.preventDefault();
+            $('body').toggleClass('dark-mode');
+        });
+
+        $('.js-podium').each(function(){
+            var t = $(this);
+            setTimeout( function(){
+                t.addClass('is-visible');
+                var h = t.data('height');
+                console.log(h);
+                t.find('.scoreboard__podium-base').css('height', h).addClass('is-expanding');
+            }, time);
+            time += 250;
+        });
+
+        randomizeData();
+        startBars();
+        sortItems();
+        countUp();
+        // randomizePodium();
+
+    });
+
+
+    function countUp() {
+
+        $('.scoreboard__item').each(function() {
+            var $this = $(this),
+                countTo = $this.data('count');
+
+            $({ countNum: $this.text()}).animate({
+                    countNum: countTo
+                },
+
+                {
+                    duration: 500,
+                    easing:'linear',
+                    step: function() {
+                        $this.find('.js-number').text(Math.floor(this.countNum));
+                    },
+                    complete: function() {
+                        $this.find('.js-number').text(this.countNum);
+                        //alert('finished');
+                    }
+
+                });
+        });
+    }
+
+    function randomizeData() {
+        $('.scoreboard__item').each(function(){
+            var rand = Math.floor(Math.random() * 900) + 1;
+            $(this).data('count', rand );
+            $(this).find('.js-number').text(rand);
+        });
+
+    }
+
+    function startBars() {
+        $('.js-bar').each(function() {
+            console.log('running');
+            // calculate %.
+            var t = $(this);
+            setTimeout( function(){
+                var width = t.parent('.scoreboard__item').data('count');
+                width = width  / sum * 100;
+                width = Math.round(width);
+                t.find('.scoreboard__bar-bar').css('width',  width + "%");
+                t.parent('li').addClass('is-visible');
+            }, time);
+            time += 0;
+        });
+    }
+
+    function sortItems() {
+        tinysort.defaults.order = 'desc';
+
+        var ul = document.getElementById('scoreboard__items')
+            ,lis = ul.querySelectorAll('li')
+            ,liHeight = lis[0].offsetHeight
+        ;
+        ul.style.height = ul.offsetHeight+'px';
+        for (var i= 0,l=lis.length;i<l;i++) {
+            var li = lis[i];
+            li.style.position = 'absolute';
+            li.style.top = i*liHeight+'px';
+        }
+        tinysort('ol#scoreboard__items>li', 'span.js-number').forEach(function(elm,i){
+            setTimeout((function(elm,i){
+                elm.style.top = i*liHeight+'px';
+            }).bind(null,elm,i),40);
+        });
+
+
+    }
+
+    function randEmail() {
+        var chars = 'abcdefghijklmnopqrstuvwxyz1234567890';
+        var string = '';
+        for(var ii=0; ii<15; ii++){
+            string += chars[Math.floor(Math.random() * chars.length)];
+        }
+        return string + '@domain.tld';
+    }
+
+    function oneUp() {
+        // play audio - update email.
+        var randEmail = window.randEmail();
+        $('.js-oneup').html('Ny påmeldt: ' + randEmail);
+        $('.js-oneup-audio')[0].play();
+    }
+
+
+    function randomizePodium() {
+        $('.js-podium-data').each(function() {
+            var random = Math.floor(Math.random() * 900) + 1;
+            $(this).fadeOut(200).text(random + ' deltagere').fadeIn(200);
+        });
+        $(this).data('count', random);
+    }
+
+    function podiumUpdate() {
+        $('.js-podium').each(function() {
+            $(this).addClass('bump');
+            randomizePodium();
+        });
+    }
+</script>
 </body>
 </html>
