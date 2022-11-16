@@ -1,5 +1,6 @@
 package com.example.geniusquizz.web;
 
+import com.example.geniusquizz.model.Question;
 import com.example.geniusquizz.model.Session;
 import com.example.geniusquizz.model.User;
 import com.example.geniusquizz.repository.SessionRepository;
@@ -11,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import java.security.Principal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.*;
 
 @Controller
@@ -46,6 +50,16 @@ public class SessionController {
 
     @GetMapping("/sessions/delete/{id}")
     public String deleteSession(@PathVariable(name="id") Long id){
+        try {
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3308/genius_quizz?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC","root","of2LBdck@");
+            Statement stmt = con.createStatement();
+            String sql = "SET @id = '" + id + "'";
+            stmt.execute(sql);
+            sql = "DELETE FROM sessions_questions WHERE session_id = @id";
+            stmt.execute(sql);
+            con.close();
+            System.out.println("Deleting sessions questions " + id + " from the Core DB");
+        } catch(Exception e){ System.out.println(e);}
         sessionService.delete((id));
         return "redirect:/sessions?success";
     }
