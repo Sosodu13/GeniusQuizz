@@ -1,5 +1,6 @@
 package com.example.geniusquizz.web;
 
+import com.example.geniusquizz.model.User;
 import com.example.geniusquizz.repository.SessionRepository;
 import com.example.geniusquizz.repository.UserRepository;
 import com.example.geniusquizz.service.SessionService;
@@ -31,8 +32,11 @@ public class MainController {
         {
             return "redirect:/login";
         }
-        model.addAttribute("user", userRepository.findByEmail(principal.getName()));
-        model.addAttribute("sessions", sessionService.getAll());
+        //        model.addAttribute("user", userRepository.findByEmail(principal.getName()));
+        //        model.addAttribute("sessions", sessionService.getAll());
+        User user = userRepository.findByEmail(principal.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("sessions", sessionRepository.getAllByUserLimit6(user.getId()));
 
         Object[] o = userRepository.findScoreSessionsByUser();
 

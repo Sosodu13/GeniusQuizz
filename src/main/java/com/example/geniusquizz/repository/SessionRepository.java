@@ -18,4 +18,7 @@ public interface SessionRepository extends JpaRepository<Session,Long> {
 
     @Query(value = "SELECT * FROM session WHERE user_id = ?1 ;", nativeQuery = true)
     public Set<Session> getAllByUser(Long id);
+
+    @Query(value = "SELECT * FROM session WHERE user_id = ?1 and life > 0 LIMIT 6;", nativeQuery = true)
+    public Set<Session> getAllByUserLimit6(Long id);
 }
