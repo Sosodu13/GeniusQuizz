@@ -47,6 +47,7 @@ public class QuizzController {
         Question question = questionRepository.findQuestionNotInSession(id);
         model.addAttribute("question", question);
         if(question == null) {
+            httpSession.setAttribute("session_quizz",session);
             return "redirect:/finish";
         }
 
