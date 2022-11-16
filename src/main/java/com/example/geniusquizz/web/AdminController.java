@@ -17,6 +17,7 @@ import java.sql.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +26,8 @@ import java.util.Objects;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-
+    @Autowired
+    private HttpSession httpSession;
     @Autowired
     UserRepository userRepository;
 
@@ -46,7 +48,9 @@ public class AdminController {
 
     @GetMapping("/questions")
     public String adminQuestions(Model model, Principal principal){
-
+        httpSession.removeAttribute("session_quizz");
+        httpSession.removeAttribute("is_correct");
+        httpSession.removeAttribute("correct_answer");
         if(principal.getName() == null)
         {
             return "redirect:/login";
@@ -62,7 +66,6 @@ public class AdminController {
         model.addAttribute("user", userRepository.findByEmail(principal.getName()));
         model.addAttribute("users", userRepository.findAll());
         model.addAttribute("questions", questionRepository.findAll());
-        System.out.println(questionRepository.findAll());
 
         return "admin/questions";
     }
@@ -208,7 +211,6 @@ public class AdminController {
 
         newQuestion = questionRepository.save(newQuestion);
 
-        System.out.println(newQuestion);
         Answer answer1;
         Answer answer2;
         Answer answer3;
@@ -246,9 +248,7 @@ public class AdminController {
 
         newQuestion.setAnswers(answerCollection);
 
-        newQuestion = questionRepository.save(newQuestion);
-
-        System.out.println(newQuestion);
+        questionRepository.save(newQuestion);
 
         return "redirect:/admin/question/add?success";
     }
@@ -281,7 +281,6 @@ public class AdminController {
             sql = "DELETE FROM sessions_questions WHERE question_id = @id";
             stmt.execute(sql);
             con.close();
-            System.out.println("Deleting sessions questions " + id + " from the Core DB");
         } catch(Exception e){ System.out.println(e);}
 
         questionRepository.delete(questionFind);

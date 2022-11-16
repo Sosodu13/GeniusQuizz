@@ -30,7 +30,8 @@ public class MainController {
     @GetMapping("/")
     public String home(Model model, Principal principal){
         httpSession.removeAttribute("session_quizz");
-
+        httpSession.removeAttribute("is_correct");
+        httpSession.removeAttribute("correct_answer");
         if(principal.getName() == null)
         {
             return "redirect:/login";
@@ -42,7 +43,6 @@ public class MainController {
         Object[] o = userRepository.findScoreSessionsByUser();
 
         if (!indexExists(o,0) || !indexExists(o,1) || !indexExists(o,2)){
-            System.out.println("icicic");
             model.addAttribute("podium",false);
             return "index";
         }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Objects;
@@ -26,7 +27,8 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/profile")
 public class UserProfileController {
-
+    @Autowired
+    private HttpSession httpSession;
     @Autowired
     UserRepository userRepository;
 
@@ -35,6 +37,9 @@ public class UserProfileController {
 
     @GetMapping("")
     public String profile(Model model, Principal principal){
+        httpSession.removeAttribute("session_quizz");
+        httpSession.removeAttribute("is_correct");
+        httpSession.removeAttribute("correct_answer");
 
         if(principal.getName() == null)
         {
@@ -72,8 +77,6 @@ public class UserProfileController {
         {
             return "redirect:/profile?changeEmail";
         }
-
-        System.out.println(user);
 
         userService.updateAccount(user);
 

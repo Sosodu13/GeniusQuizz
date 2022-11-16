@@ -194,6 +194,13 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-xl-3 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100" th:if="${sessions.size() == 0}">
+                        <div class="icon-box">
+                            <div class="icon"><i class="bx bxl-dribbble"></i></div>
+                            <h4><a href="">Session Quizz</a></h4>
+                            <p><a th:href="@{/sessions}" class="btn-get-started scrollto">Explorez les quiz</a></p>
+                        </div>
+                    </div>
                     <div class="col-xl-2 col-md-6 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100" th:each="s: ${sessions}">
                         <div class="icon-box">
                             <div class="icon"><i class="bx bxl-dribbble"></i></div>

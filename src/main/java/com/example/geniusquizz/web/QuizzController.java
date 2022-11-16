@@ -10,6 +10,8 @@ import com.example.geniusquizz.service.AnswerServiceImpl;
 import com.example.geniusquizz.service.QuestionServiceImpl;
 import com.example.geniusquizz.service.SessionServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -74,7 +76,6 @@ public class QuizzController {
             httpSession.setAttribute("is_correct",false);
             Answer correct_answer = answerRepository.findGoodAnswerByQuestion(question_id);
             httpSession.setAttribute("correct_answer",correct_answer);
-
             session.setLife(session.getLife() - 1);
         }
 

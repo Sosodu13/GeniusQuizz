@@ -33,7 +33,8 @@ public class SessionController {
     @GetMapping("/sessions")
     public String sessions(Model model, Principal principal) {
         httpSession.removeAttribute("session_quizz");
-
+        httpSession.removeAttribute("is_correct");
+        httpSession.removeAttribute("correct_answer");
         User user = userRepository.findByEmail(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("sessions", sessionRepository.getAllByUser(user.getId()));
@@ -57,14 +58,13 @@ public class SessionController {
     @GetMapping("/sessions/delete/{id}")
     public String deleteSession(@PathVariable(name="id") Long id){
         try {
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3308/genius_quizz?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC","root","of2LBdck@");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/genius_quizz?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC","root","");
             Statement stmt = con.createStatement();
             String sql = "SET @id = '" + id + "'";
             stmt.execute(sql);
             sql = "DELETE FROM sessions_questions WHERE session_id = @id";
             stmt.execute(sql);
             con.close();
-            System.out.println("Deleting sessions questions " + id + " from the Core DB");
         } catch(Exception e){ System.out.println(e);}
         sessionService.delete((id));
         return "redirect:/sessions?success";
