@@ -46,15 +46,16 @@
 
     <section class="inner-page">
         <div class="container">
-            <div class="mx-auto mb-4">
-                <a th:href="@{'/sessions/new'}"><button class="btn btn-primary btn-lg" type="button">Nouvelle partie</button></a>
-            </div>
-
+            <a th:href="@{'/sessions/new'}">
+                <div class="d-grid gap-2 col-6 mx-auto mb-4">
+                    <button class="btn btn-primary btn-lg" type="button">Nouvelle partie</button>
+                </div>
+            </a>
             <p th:if="${ sessions.size() > 0 }">Reprennez une de vos anciennes parties :</p>
             <p th:if="${ sessions.size() == 0 }">Vous n'avez pas encore de sessions de jeu !</p>
 
             <div class="table-responsive">
-            <table class="table table-info table-striped table-hover align-middle" th:if="${ sessions.size() > 0 }">
+            <table class="table table-secondary table-striped table-hover align-middle" th:if="${ sessions.size() > 0 }">
                 <thead>
                 <tr>
                     <th scope="col"></th>
