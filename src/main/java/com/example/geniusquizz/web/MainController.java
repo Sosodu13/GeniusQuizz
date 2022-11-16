@@ -9,12 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.util.*;
 
 @Controller
 public class MainController {
-
+    @Autowired
+    private HttpSession httpSession;
     @Autowired
     UserRepository userRepository;
 
@@ -27,6 +29,7 @@ public class MainController {
 
     @GetMapping("/")
     public String home(Model model, Principal principal){
+        httpSession.removeAttribute("session_quizz");
 
         if(principal.getName() == null)
         {

@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import javax.servlet.http.HttpSession;
 import java.security.Principal;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,6 +22,8 @@ import java.util.*;
 @Controller
 public class SessionController {
     @Autowired
+    private HttpSession httpSession;
+    @Autowired
     private SessionServiceImpl sessionService;
     @Autowired
     private SessionRepository sessionRepository;
@@ -28,6 +32,8 @@ public class SessionController {
 
     @GetMapping("/sessions")
     public String sessions(Model model, Principal principal) {
+        httpSession.removeAttribute("session_quizz");
+
         User user = userRepository.findByEmail(principal.getName());
         model.addAttribute("user", user);
         model.addAttribute("sessions", sessionRepository.getAllByUser(user.getId()));
