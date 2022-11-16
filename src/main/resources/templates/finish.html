@@ -12,9 +12,7 @@
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top header-inner-pages">
         <div class="container d-flex align-items-center">
-
             <h1 class="logo me-auto"><a th:href="@{/}">GeniusQuizz</a></h1>
-
             <nav id="navbar" class="navbar">
                 <ul>
                     <li><a class="nav-link scrollto " th:href="@{/}">Accueil</a></li>
@@ -24,18 +22,44 @@
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
-
         </div>
     </header><!-- End Header -->
 
+    <main id="main">
+        <!-- ======= Breadcrumbs ======= -->
+        <section id="breadcrumbs" class="breadcrumbs">
+            <div class="container">
+                <ol>
+                    <li><a th:href="@{/}">Accueil</a></li>
+                    <li><a th:href="@{/sessions}">Sessions</a></li>
+                    <li>END GAME</li>
+                </ol>
+                <div class="d-flex justify-content-center">
+                    <h1 th:text="${'SCORE ' + session.get('session_quizz').score}"></h1>
+                </div>
+            </div>
+        </section><!-- End Breadcrumbs -->
 
-    <main id="main" >
-        <div class="container">
-            <h1>FINISH</h1>
-        </div>
+        <section class="inner-page">
+            <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h3>Fin de partie</h3>
+                            <p>Bravo vous êtes arrivé à la fin des questions disponible sur notre quizz.
+                                <br/>
+                                Essayer de battre votre score sur une nouvelle partie !</p>
+                            <p class="mt-5">
+                                <a th:href="@{'/sessions/new'}" class="mx-2"><button class="btn btn-primary btn-lg" type="button">Nouvelle partie</button></a>
+                                <a th:href="@{'/sessions'}" class="mx-2"><button class="btn btn-primary btn-lg" type="button">Retour aux sessions</button></a>
+                            </p>
+                        </div>
+                        <div class="col">
+                            <img src="https://media4.giphy.com/media/KB0bQT2qaQf1AtH17k/giphy.gif" style="border-radius: 10%;" width="100%" height="100%" frameBorder="0" class="giphy-embed" allowFullScreen><!--position:absolute-->
+                        </div>
+                </div>
+            </div>
+        </section>
     </main><!-- End #main -->
-
-
 
     <!-- ======= Footer ======= -->
     <hr>
