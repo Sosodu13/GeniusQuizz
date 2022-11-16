@@ -19,6 +19,7 @@
         <nav id="navbar" class="navbar">
           <ul>
             <li><a class="nav-link scrollto" th:href="@{/}">Accueil</a></li>
+            <li><a class="nav-link scrollto" th:href="@{/sessions}">Sessions</a></li>
             <li><a class="nav-link" th:href="@{/profile}" ><span th:text="${user.getFirstName()}+' '+ |${user.getLastName()}|"></span></a></li>
             <li><a class="getstarted scrollto" id="decoBt" th:href="@{/logout}">Déconnexion</a></li>
           </ul>
