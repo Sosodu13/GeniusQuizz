@@ -47,7 +47,7 @@ public class UserRegistrationController {
         {
             return "redirect:/inscription?error";
         }
-        if (!Objects.isNull(userService.getByEmail(userDto.getEmail())))
+        if (userService.existUserByEmail(userDto.getEmail()))
         {
             return "redirect:/inscription?exists";
         }

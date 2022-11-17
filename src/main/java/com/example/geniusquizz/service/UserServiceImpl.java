@@ -64,6 +64,16 @@ public class UserServiceImpl implements UserService{
         return returnUserDTO;
     }
 
+    @Override
+    public Boolean existUserByEmail(String email) {
+        User userEntity = userRepository.findByEmail(email);
+        if (userEntity == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
 //    @Override
 //    public UserDto getUserById(Long userId) {
 //        UserDto returnUserDTO = new UserDto();

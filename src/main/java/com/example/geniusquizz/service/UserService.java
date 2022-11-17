@@ -11,6 +11,7 @@ public interface UserService extends UserDetailsService {
 
     User save (UserDto userDto);
     UserDto getByEmail(String email);
+    Boolean existUserByEmail(String email);
 //    UserDto getUserById(Long userId);
     UserDto updateAccount(UserDto userDTO);
 
